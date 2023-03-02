@@ -1,13 +1,16 @@
 from enum import Enum
 import time
 
+from bs4 import BeautifulSoup
 from selenium import webdriver
 
 
 class QuantityOfComments(Enum):
+    VERY_SMALL = 10
     SMALL = 30
     MEDIUM = 60
     LARGE = 120
+    VERY_LARGE = 240
 
 
 def _scroll_to_bottom(
@@ -49,14 +52,23 @@ def _scroll_to_bottom(
 
 
 def get_html_for_video(video_url: str) -> webdriver.Chrome.page_source:
-    """Return a html page with comments"""
+    """Return a html page with comments
+
+    :param video_url: video url
+    :return html: html for url
+    """
+
+    if not video_url:
+        raise TypeError("Your url is empty")
 
     browser = webdriver.Chrome()
     # get page
     browser.get(video_url)
 
+    # time.sleep(50)
+
     # download new comments
-    _scroll_to_bottom(browser, 0.6, QuantityOfComments.SMALL)
+    _scroll_to_bottom(browser, 0.6, QuantityOfComments.VERY_SMALL)
 
     # get html and exit
     html = browser.page_source
@@ -65,8 +77,60 @@ def get_html_for_video(video_url: str) -> webdriver.Chrome.page_source:
     return html
 
 
+def get_div_of_all_comments_from_html(html: webdriver.Chrome.page_source) -> list[BeautifulSoup]:
+    """
+    Return raw list of comments
+
+    :param html: html of page
+    :return all_comments: raw list of comments
+    """
+
+    soup = BeautifulSoup(html, "lxml")
+
+    box_of_comments = soup.find(
+        "ytd-comments",
+        id="comments",
+    ).find(
+        "ytd-item-section-renderer",
+        id="sections",
+    ).find(
+        "div",
+        id="contents",
+    )
+    all_comments = box_of_comments.find_all(
+        "ytd-comment-thread-renderer",
+        class_="style-scope ytd-item-section-renderer",
+    )
+
+    return all_comments
+
+
+def get_list_of_comments_from_div(list_of_div_blocks: list[BeautifulSoup]) -> list[str]:
+    """
+    Return all comments from div after translating to string
+
+    :param list_of_div_blocks: list of divs
+    :return comments: list of comments
+    """
+    if not list_of_div_blocks:
+        raise TypeError("List of comments is empty")
+
+    comments = []
+
+    for div_block in list_of_div_blocks:
+        comment = div_block.find("yt-formatted-string", id="content-text").text
+        comments.append(comment)
+
+    return comments
+
+
 def main():
-    print(get_html_for_video("https://www.youtube.com/watch?v=tgwc1Mw6jto"))
+    html = get_html_for_video("https://www.youtube.com/watch?v=tgwc1Mw6jto")
+
+    div_block = get_div_of_all_comments_from_html(html)
+    list_of_comments = get_list_of_comments_from_div(div_block)
+
+    print(list_of_comments)
 
 
 if __name__ == '__main__':

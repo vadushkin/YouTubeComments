@@ -1,4 +1,6 @@
+import datetime
 from enum import Enum
+import json
 import time
 
 from bs4 import BeautifulSoup
@@ -105,9 +107,9 @@ def get_div_of_all_comments_from_html(html: webdriver.Chrome.page_source) -> lis
     return all_comments
 
 
-def get_list_of_comments_from_div(list_of_div_blocks: list[BeautifulSoup]) -> list[str]:
+def get_list_of_comments(list_of_div_blocks: list[BeautifulSoup]) -> list[str]:
     """
-    Return all comments from div after translating to string
+    Return all comments from list of divs after translating to string
 
     :param list_of_div_blocks: list of divs
     :return comments: list of comments
@@ -124,11 +126,40 @@ def get_list_of_comments_from_div(list_of_div_blocks: list[BeautifulSoup]) -> li
     return comments
 
 
+def create_json_file_of_comments_with_user(list_of_div_blocks: list[BeautifulSoup]) -> None:
+    """
+    Create a json file of comments with users from list of divs
+
+    :param list_of_div_blocks: list of divs
+    """
+    if not list_of_div_blocks:
+        raise TypeError("List of comments is empty")
+
+    comments = {}
+
+    for div_block in list_of_div_blocks:
+        comment = div_block.find("yt-formatted-string", id="content-text").text
+        user = div_block.find("a", id="author-text").find("span").text
+
+        user = user.strip()
+
+        comments[user] = comment
+
+    # Change date from "2077-07-07 22:22:22.22222" to "2077-07-07_22-22-22"
+    date_now = str(datetime.datetime.now()).replace(":", "-").replace(" ", "_").split(".")[0]
+
+    with open(f'comments_{date_now}.json', 'w', encoding='utf-8') as f:
+        json.dump(comments, f, ensure_ascii=False, indent=4)
+
+
 def main():
-    html = get_html_for_video("https://www.youtube.com/watch?v=tgwc1Mw6jto")
+    # <3
+    html = get_html_for_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
     div_block = get_div_of_all_comments_from_html(html)
-    list_of_comments = get_list_of_comments_from_div(div_block)
+    list_of_comments = get_list_of_comments(div_block)
+
+    create_json_file_of_comments_with_user(div_block)
 
     print(list_of_comments)
 

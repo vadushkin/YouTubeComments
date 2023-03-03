@@ -1,3 +1,4 @@
+import asyncio
 import sys
 import time
 
@@ -25,8 +26,12 @@ def main():
     list_of_comments = get_list_of_comments_from_div_block(div_block)
     dictionary_of_comments = get_dictionary_of_comments_from_div_block(div_block)
 
-    translated_list = translate_list(list_of_comments, to_language="en")
-    translated_dictionary = translate_dictionary(dictionary_of_comments, is_rename_names=True, to_language="en")
+    translated_list = asyncio.run(
+        translate_list(list_of_comments, to_language="en")
+    )
+    translated_dictionary = asyncio.run(
+        translate_dictionary(dictionary_of_comments, is_rename_names=True, to_language="en")
+    )
 
     print(f"--- For {time.time() - start_time} seconds comments was translated ---")
 

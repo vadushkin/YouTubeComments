@@ -53,10 +53,16 @@ def _scroll_to_bottom(
         last_height = new_height
 
 
-def get_html_for_video(video_url: str) -> webdriver.Chrome.page_source:
+def get_html_for_video(
+        video_url: str,
+        page_loading_time: float,
+        quantity: QuantityOfComments
+) -> webdriver.Chrome.page_source:
     """Return a html page with comments
 
     :param video_url: video url
+    :param page_loading_time: how long do we have to wait to see new comments
+    :param quantity: instance of QuantityOfComments, how 'many' comments do we need
     :return html: html for url
     """
 
@@ -70,7 +76,7 @@ def get_html_for_video(video_url: str) -> webdriver.Chrome.page_source:
     # time.sleep(50)
 
     # download new comments
-    _scroll_to_bottom(browser, 0.6, QuantityOfComments.VERY_SMALL)
+    _scroll_to_bottom(browser, page_loading_time, quantity)
 
     # get html and exit
     html = browser.page_source
@@ -154,7 +160,7 @@ def create_json_file_of_comments_with_user(list_of_div_blocks: list[BeautifulSou
 
 def main():
     # <3
-    html = get_html_for_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    html = get_html_for_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", 0.6, QuantityOfComments.SMALL)
 
     div_block = get_div_of_all_comments_from_html(html)
     list_of_comments = get_list_of_comments(div_block)

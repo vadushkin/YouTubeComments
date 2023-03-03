@@ -120,6 +120,29 @@ Get a list of comments
  ...]
 ```
 
+Translate list
+
+```python
+translate_list(list_of_comments, to_language="en")
+```
+
+```shell
+['1 BILLION views for Never Gonna Give You Up!\xa0 Amazing, crazy, wonderful! Rick ️',
+ "Jokes on you I love this song\n\nNow where's my free iPhone", 'I just love the track', 'old memories song',
+ 'A legend', 'Rickroll me, I want to listen to this always', 'timeless classic',
+ "The 172,000 people who disliked this video are only mad because they've been rick rolled.",
+ 'This song also became a memory..',
+ 'Ah.. It feels like Japanese city pop, but the sensibility is kind of fuzzy.. I like it!',
+ "I'm a millennial but I love these songs this is good music <3",
+ "My 1% of battery that I have left I'm going to spend it listening to this great song",
+ 'Wait this isn’t How To Rickroll People Tutorial.',
+ "Fun fact: The second  person who got rickrolled was Rick's editor.\n\nSo many likes",
+ "I used to get mad about getting rickrolled but now I'm liking it.",
+ 'The beginning is the best thing that happened to me...',
+ ...]
+
+```
+
 Speed
 -----
 

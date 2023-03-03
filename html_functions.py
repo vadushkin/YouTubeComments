@@ -3,7 +3,7 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-from main import QuantityOfComments
+from help_classes import QuantityOfComments
 
 
 def _scroll_to_bottom(

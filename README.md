@@ -143,6 +143,34 @@ translate_list(list_of_comments, to_language="en")
 
 ```
 
+Tests
+-----
+
+```tests_speed/en_overall.py```
+
+```python
+"""
+...
+
+comments summary: 7 + 23 + 43 = 73 comments
+comments time: 17.6 + 43.1 + 63.9 = 124.6 seconds
+"""
+```
+
+
+```tests_speed/en_overall_async.py```
+
+```python
+"""
+...
+
+comments summary: 7 + 23 + 43 = 73 comments
+comments time: 3.0 + 6.0 + 13.8 = 22.8 seconds
+"""
+```
+
+#### The speed has increased 4 times after async
+
 Speed
 -----
 

@@ -51,7 +51,7 @@ A small example comment
 python main.py
 ```
 
-```example/scomments_2023-03-02_21-39-00.json```
+```example/not_translated_comments.json```
 
 ```json
 {
@@ -71,7 +71,36 @@ python main.py
   "DANK MEMES": "Fun fact: The second  person who got rickrolled was Rick's editor.\n\nSo many likes\n ",
   "Its Thlippery": "I used to get mad about getting rickrolled but now I'm liking it.",
   "Diablo [GMD]": "Начало это лучшее что со мной было...",
-  "GregTimisto": "Вернулся сюда, что бы вспомнить старые времена и их моду...",
+  "...": "..."
+}
+```
+
+Translate dictionary
+
+```python
+translate_dictionary(dictionary, is_rename_names=True, to_language="en")
+```
+
+```examples/translated_comments.json```
+
+```json
+{
+  "Rick Astley": "1 BILLION views for Never Gonna Give You Up!  Amazing, crazy, wonderful! Rick ️",
+  "July is Online": "Jokes on you I love this song\n\nNow where's my free iPhone",
+  "haz3rz": "I just love the track",
+  "only you": "old memories song",
+  "Human": "A legend",
+  "Svarliverchik": "Rickroll me, I want to listen to this always",
+  "Jessica Veiga": "timeless classic",
+  "fox mccloud93": "The 172,000 people who disliked this video are only mad because they've been rick rolled.",
+  "pte": "This song also became a memory..",
+  "Stay C Vitamin C": "Ah.. It feels like Japanese city pop, but the sensibility is kind of fuzzy.. I like it!",
+  "Laura Vargas": "I'm a millennial but I love these songs this is good music <3",
+  "Alexia🇲🇳": "My 1% of battery that I have left I'm going to spend it listening to this great song",
+  "Cinematic Captures": "Wait this isn’t How To Rickroll People Tutorial.",
+  "THANKS MEMES": "Fun fact: The second  person who got rickrolled was Rick's editor.\n\nSo many likes",
+  "Its Thlippery": "I used to get mad about getting rickrolled but now I'm liking it.",
+  "Diablo [GMD]": "The beginning is the best thing that happened to me...",
   "...": "..."
 }
 ```
@@ -79,8 +108,6 @@ python main.py
 Get a list of comments
 
 ```shell
-$ python main.py
-
 ['1 BILLION views for Never Gonna Give You Up!\xa0 Amazing, crazy, wonderful! Rick ️',
  "Jokes on you I love this song\n\nNow where's my free iPhone", 'мне просто трек нравится', '옛 추억의 노래', 'Легенда\n',
  'Рикрольте меня, я хочу слушать это всегда', 'Clássico atemporal',
@@ -90,20 +117,7 @@ $ python main.py
  'Wait this isn’t How To Rickroll People Tutorial.',
  "Fun fact: The second  person who got rickrolled was Rick's editor.\n\nSo many likes\n ",
  "I used to get mad about getting rickrolled but now I'm liking it.", 'Начало это лучшее что со мной было...',
- 'Вернулся сюда, что бы вспомнить старые времена и их моду...',
- 'Странно, почему 1.3 млрд просмотров? Все кого я знаю, знают эту песню и любят ее.',
- 'Ich liebe dieses Lied es ein einfach ein Klassiker ich hab es schon vor diesem rickroll ding gehört aber es ist und bleibt einer meiner Favoriten',
- 'Me acaban de rickrolear, pero recordé que enserio me gusta esta canción así que me quede viendo hasta el final, soy inmune a los rickrolls',
- 'Песня просто супер', 'May the rick roll never end!!!', 'Sigue siendo un temazo a pesar del pasar de los años ',
- 'Ностальгия ', 'СУПЕР!!', 'all memes aside, i just come here to listen to it because its good.', 'Kocham tą piosenkę',
- 'He never gave up\nHe never let us down \nHe never run around and desert us \nHe never made us cry',
- 'still a classic roll or not im sitting trough the whole thing', 'С тех пор песня до сих пор хороша',
- 'Rick, this is an absolute masterpiece. It deserves the views it has, great work!',
- 'The rickroll will be the most historical thing in the world', 'Es maravilloso la época de los 80s',
- 'genuinely forgot about this im actually impressed i fell for it again', 'Tremendo rickroll Wacho\n',
- '日本からも釣られてきたけど、\nそれ以前から好きすぎる曲。', "When people don't want to rickroll me, I'll just rickroll myself.",
- "Wait this isn't how to beat Matt from Wii Sports", 'Então esse é o manual... Que lindo',
- '1,3 миллиарда просмотров)\nОфигеть)']
+ ...]
 ```
 
 Speed

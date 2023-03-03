@@ -45,7 +45,7 @@ async def translate_dictionary(
         for index, (name, comment) in enumerate(dictionary.items(), start=1):
             try:
                 new_name = await translate(session, to_language, from_language, name) if is_rename_names else name
-                new_comment = await translate(session, to_language, from_language, name)
+                new_comment = await translate(session, to_language, from_language, comment)
 
                 new_dictionary[new_name] = new_comment
 

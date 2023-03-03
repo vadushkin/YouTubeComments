@@ -2,8 +2,10 @@ import datetime
 from enum import Enum
 import json
 import time
+from urllib.error import URLError
 
 from bs4 import BeautifulSoup
+from mtranslate import translate
 from selenium import webdriver
 
 
@@ -132,11 +134,12 @@ def get_list_of_comments(list_of_div_blocks: list[BeautifulSoup]) -> list[str]:
     return comments
 
 
-def create_json_file_of_comments_with_user(list_of_div_blocks: list[BeautifulSoup]) -> None:
+def get_dictionary_of_comments_from_div_block(list_of_div_blocks: list[BeautifulSoup]) -> dict:
     """
-    Create a json file of comments with users from list of divs
+    Return dictionary of comments from div block
 
-    :param list_of_div_blocks: list of divs
+    :param list_of_div_blocks: a list of divs
+    :return comments: a dictionary of comments
     """
     if not list_of_div_blocks:
         raise TypeError("List of comments is empty")
@@ -151,23 +154,72 @@ def create_json_file_of_comments_with_user(list_of_div_blocks: list[BeautifulSou
 
         comments[user] = comment
 
+    return comments
+
+
+def create_json_file_of_comments_with_user(dictionary_of_comments: dict) -> None:
+    """
+    Create a json file of comments with users from list of divs
+
+    :param dictionary_of_comments: list of divs
+    """
+    if not isinstance(dictionary_of_comments, dict):
+        raise TypeError("dictionary_of_comments must be a dict")
+
     # Change date from "2077-07-07 22:22:22.22222" to "2077-07-07_22-22-22"
     date_now = str(datetime.datetime.now()).replace(":", "-").replace(" ", "_").split(".")[0]
 
     with open(f'comments_{date_now}.json', 'w', encoding='utf-8') as f:
-        json.dump(comments, f, ensure_ascii=False, indent=4)
+        json.dump(dictionary_of_comments, f, ensure_ascii=False, indent=4)
+
+
+def translate_dictionary(
+        dictionary: dict,
+        is_rename_names: bool = False,
+        to_language: str = "auto",
+        from_language: str = "auto",
+) -> dict:
+    """
+    Translate a dictionary and return a new translated dictionary
+
+    :param dictionary: dictionary of comments
+    :param is_rename_names: we want to translate names?
+    :param to_language: to what language we will translate a text
+    :param from_language: from what language we will translate a text
+    :return new_dictionary: new translated dictionary
+    """
+    new_dictionary = {}
+
+    for index, (name, comment) in enumerate(dictionary.items(), start=1):
+        try:
+            new_name = translate(name, to_language, from_language) if is_rename_names else name
+            new_comment = translate(comment, to_language, from_language)
+
+            new_dictionary[new_name] = new_comment
+            print(f"Comment №{index} translated!")
+        except URLError:
+            print(f"Wrong url №{index}")
+
+    return new_dictionary
 
 
 def main():
     # <3
-    html = get_html_for_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", 0.6, QuantityOfComments.SMALL)
+    html = get_html_for_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", 0.6, QuantityOfComments.VERY_SMALL)
 
     div_block = get_div_of_all_comments_from_html(html)
     list_of_comments = get_list_of_comments(div_block)
+    dictionary = get_dictionary_of_comments_from_div_block(div_block)
 
-    create_json_file_of_comments_with_user(div_block)
+    translated_dictionary = translate_dictionary(dictionary, is_rename_names=True, to_language="en")
+
+    create_json_file_of_comments_with_user(dictionary)
+    time.sleep(1)
+    create_json_file_of_comments_with_user(translated_dictionary)
 
     print(list_of_comments)
+    print(dictionary)
+    print(translated_dictionary)
 
 
 if __name__ == '__main__':

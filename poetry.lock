@@ -272,6 +272,17 @@ htmlsoup = ["BeautifulSoup4"]
 source = ["Cython (>=0.29.7)"]
 
 [[package]]
+name = "mtranslate"
+version = "1.8"
+description = "Google translate console script with easy to use API"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "mtranslate-1.8.tar.gz", hash = "sha256:034f8b4cd0bb96efbb4e4d5935e2d0a45a46dadf567d60bc200d77440bba5e0c"},
+]
+
+[[package]]
 name = "outcome"
 version = "1.2.0"
 description = "Capture the outcome of Python function calls."
@@ -442,4 +453,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4456b11d7f9e1e821fd56c70c07844333bf18e7159e85fea6939d3f2a04312c4"
+content-hash = "4a30c8a7f64030560958d31e315f606f00f6d8e408580133f64de692bfc02034"

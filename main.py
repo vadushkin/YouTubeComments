@@ -115,7 +115,7 @@ def get_div_of_all_comments_from_html(html: webdriver.Chrome.page_source) -> lis
     return all_comments
 
 
-def get_list_of_comments(list_of_div_blocks: list[BeautifulSoup]) -> list[str]:
+def get_list_of_comments_from_div_block(list_of_div_blocks: list[BeautifulSoup]) -> list[str]:
     """
     Return all comments from list of divs after translating to string
 
@@ -203,23 +203,57 @@ def translate_dictionary(
     return new_dictionary
 
 
+def translate_list(
+        list_of_comments: list[str],
+        to_language: str = "auto",
+        from_language: str = "auto",
+) -> list[str]:
+    """
+    Translate a list and return a new translated list
+
+    :param list_of_comments: a list of comments
+    :param to_language: to what language we will translate a text
+    :param from_language: from what language we will translate a text
+    :return translated_list: new translated list
+    """
+    translated_list = []
+
+    for index, comment in enumerate(list_of_comments, start=1):
+        try:
+            new_comment = translate(comment, to_language, from_language)
+
+            translated_list.append(new_comment)
+            print(f"Comment №{index} translated!")
+        except URLError:
+            print(f"Wrong url №{index}")
+
+    return translated_list
+
+
 def main():
     # <3
     html = get_html_for_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", 0.6, QuantityOfComments.VERY_SMALL)
 
     div_block = get_div_of_all_comments_from_html(html)
-    list_of_comments = get_list_of_comments(div_block)
-    dictionary = get_dictionary_of_comments_from_div_block(div_block)
+    list_of_comments = get_list_of_comments_from_div_block(div_block)
+    dictionary_of_comments = get_dictionary_of_comments_from_div_block(div_block)
 
-    translated_dictionary = translate_dictionary(dictionary, is_rename_names=True, to_language="en")
+    translated_dictionary = translate_dictionary(dictionary_of_comments, is_rename_names=True, to_language="en")
+    translated_list = translate_list(list_of_comments, to_language="en")
 
-    create_json_file_of_comments_with_user(dictionary)
+    create_json_file_of_comments_with_user(dictionary_of_comments)
     time.sleep(1)
     create_json_file_of_comments_with_user(translated_dictionary)
 
-    print(list_of_comments)
-    print(dictionary)
-    print(translated_dictionary)
+    print("Non-translated list:\n", list_of_comments)
+    print("Translated list:\n", translated_list)
+
+    print()
+    print("#" * 30)
+    print()
+
+    print("Non-translated dict:\n", dictionary_of_comments)
+    print("Translated dict:\n", translated_dictionary)
 
 
 if __name__ == '__main__':

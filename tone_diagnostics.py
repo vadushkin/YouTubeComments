@@ -36,6 +36,12 @@ async def comments_diagnostic(
     """
     Send a request for comment evaluation and return a new list diagnostics
 
+    p.s: About sapling.ai:
+    If you are using the trial version, then you will have restrictions!
+
+    Something like that:
+    Error: {'msg': 'Rate Limited. Visit https://sapling.ai/docs/api/api-access for details.'}
+
     :param list_of_comments: a list of comments
     :return diagnostic_list: a new list diagnostics
     """

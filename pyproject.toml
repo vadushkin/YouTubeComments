@@ -11,6 +11,7 @@ selenium = "^4.8.2"
 beautifulsoup4 = "^4.11.2"
 lxml = "^4.9.2"
 aiohttp = "^3.8.4"
+python-dotenv = "^1.0.0"
 
 
 [build-system]

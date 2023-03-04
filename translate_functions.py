@@ -5,9 +5,23 @@ from urllib.error import URLError
 import aiohttp
 
 
-async def translate(session, to_language, from_language, name):
+async def translate(
+        session: aiohttp.ClientSession,
+        text: str,
+        to_language: str = "auto",
+        from_language: str = "auto",
+):
+    """
+    Translate a text and return a translated text
+
+    :param session: session from aiohttp
+    :param text: message or text what you want to translate
+    :param to_language: to what language we will translate a text
+    :param from_language: from what language we will translate a text
+    :return result: translated text
+    """
     response = await session.get(
-        f"https://translate.google.com/m?tl={to_language}&sl={from_language}&q={name}"
+        f"https://translate.google.com/m?tl={to_language}&sl={from_language}&q={text}"
     )
 
     raw_data = await response.read()
@@ -44,8 +58,8 @@ async def translate_dictionary(
 
         for index, (name, comment) in enumerate(dictionary.items(), start=1):
             try:
-                new_name = await translate(session, to_language, from_language, name) if is_rename_names else name
-                new_comment = await translate(session, to_language, from_language, comment)
+                new_name = await translate(session, name, to_language, from_language) if is_rename_names else name
+                new_comment = await translate(session, comment, to_language, from_language)
 
                 new_dictionary[new_name] = new_comment
 
